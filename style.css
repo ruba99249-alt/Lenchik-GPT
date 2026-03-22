@@ -1,0 +1,109 @@
+/* Общие настройки */
+body {
+    background-color: #0a0a0a;
+    color: #00ff41;
+    font-family: 'Courier New', Courier, monospace;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    overflow: hidden;
+}
+
+/* Окно терминала */
+.terminal {
+    width: 90%;
+    max-width: 800px;
+    height: 80vh;
+    background: #000;
+    border: 1px solid #00ff41;
+    box-shadow: 0 0 20px rgba(0, 255, 65, 0.2);
+    display: flex;
+    flex-direction: column;
+}
+
+/* Шапка окна */
+.terminal-header {
+    background: #1a1a1a;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #00ff41;
+}
+
+.dot { height: 12px; width: 12px; border-radius: 50%; margin-right: 8px; }
+.red { background: #ff5f56; }
+.yellow { background: #ffbd2e; }
+.green { background: #27c93f; }
+
+.title {
+    flex-grow: 1;
+    text-align: center;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* Зона чата */
+.chat-window {
+    flex-grow: 1;
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    scrollbar-width: thin;
+    scrollbar-color: #00ff41 #000;
+}
+
+.msg {
+    padding: 5px 10px;
+    line-height: 1.4;
+    animation: fadeIn 0.3s ease-in;
+}
+
+.user { color: #fff; border-left: 2px solid #fff; }
+.bot { color: #00ff41; border-left: 2px solid #00ff41; text-shadow: 0 0 5px rgba(0, 255, 65, 0.5); }
+.error { color: #ff0000; border-left: 2px solid #ff0000; }
+
+/* Поле ввода */
+.input-container {
+    padding: 15px;
+    display: flex;
+    background: #050505;
+    border-top: 1px solid #00ff41;
+}
+
+.prompt { margin-right: 10px; color: #00ff41; }
+
+input {
+    flex-grow: 1;
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-family: inherit;
+    font-size: 16px;
+    outline: none;
+}
+
+button {
+    background: transparent;
+    border: 1px solid #00ff41;
+    color: #00ff41;
+    padding: 5px 15px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #00ff41;
+    color: #000;
+}
+
+button:disabled { border-color: #004411; color: #004411; }
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
