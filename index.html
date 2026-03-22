@@ -1,1 +1,76 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LENCHIK GPT | OFFICIAL</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="terminal">
+        <div class="terminal-header">
+            <span class="dot red"></span>
+            <span class="dot yellow"></span>
+            <span class="dot green"></span>
+            <div class="title">LENCHIK-GPT_v1.0_BETA</div>
+        </div>
+        
+        <div id="chat-window" class="chat-window">
+            <div class="msg bot">>>> SYSTEM: Ленчик в сети. Готов нести бред.</div>
+        </div>
 
+        <div class="input-container">
+            <span class="prompt">C:\USER></span>
+            <input type="text" id="user-input" placeholder="Введите команду..." autofocus>
+            <button id="send-btn">SEND</button>
+        </div>
+    </div>
+
+    <script type="module">
+        import { Client } from "https://cdn.jsdelivr.net/npm/@gradio/client/dist/index.min.js";
+
+        const chatWindow = document.getElementById('chat-window');
+        const userInput = document.getElementById('user-input');
+        const sendBtn = document.getElementById('send-btn');
+
+        // ЗАМЕНИ НА СВОЙ ПУТЬ К SPACE
+        const HF_SPACE = "hehketzzz/Lenchik-GPT";
+
+        async function sendMessage() {
+            const text = userInput.value.trim();
+            if (!text) return;
+
+            // Добавляем сообщение юзера
+            appendMsg(text, 'user');
+            userInput.value = "";
+            sendBtn.disabled = true;
+
+            try {
+                const app = await Client.connect(HF_SPACE);
+                const result = await app.predict("/predict", { 
+                    message: text 
+                });
+
+                // Выводим ответ (обычно это result.data[0])
+                appendMsg(result.data[0], 'bot');
+            } catch (err) {
+                appendMsg("ERROR: Ошибка связи с мозгом Ленчика. " + err, 'bot error');
+            } finally {
+                sendBtn.disabled = false;
+                chatWindow.scrollTop = chatWindow.scrollHeight;
+            }
+        }
+
+        function appendMsg(text, type) {
+            const div = document.createElement('div');
+            div.className = `msg ${type}`;
+            div.innerText = (type.includes('user') ? 'USER: ' : 'BOT: ') + text;
+            chatWindow.appendChild(div);
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+        }
+
+        sendBtn.onclick = sendMessage;
+        userInput.onkeypress = (e) => { if (e.key === 'Enter') sendMessage(); };
+    </script>
+</body>
+</html>
